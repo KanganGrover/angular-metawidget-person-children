@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+<head>
+  <meta charset="UTF-8">
+  <title>Person Form with Nested Address and Children</title>
+
+  <!-- AngularJS -->
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>
+
+  <!-- Metawidget -->
+  <script src="assets/metawidget-core.min.js"></script>
+  <script src="assets/metawidget-angular.min.js"></script>
+
+  <!-- App Scripts -->
+  <script src="app.module.js"></script>
+  <script src="person.service.js"></script>
+  <script src="app.controller.js"></script>
+
+  <style>
+    body { font-family: Arial, sans-serif; background: #f5f5f5; }
+
+    .form-container {
+      width: 500px;
+      margin: 20px auto;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      background-color: #fff;
+      box-sizing: border-box;
+    }
+
+    metawidget table { width: 100%; border-collapse: collapse; }
+    metawidget th {
+      width: 120px; text-align: left; font-weight: bold;
+      padding-right: 10px; vertical-align: middle;
+    }
+    metawidget td input, metawidget td select, metawidget td textarea {
+      width: 100%; box-sizing: border-box;
+    }
+
+    .form-section-header {
+      display: block;
+      margin-top: 20px; margin-bottom: 5px;
+      font-weight: bold;
+      font-size: 1.1em;
+    }
+
+    .child-container {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border: 1px solid #ddd;
+      padding: 10px;
+      margin-bottom: 10px;
+      border-radius: 5px;
+      background-color: #f0f0f0;
+    }
+
+    .child-container button {
+      width: auto;
+      padding: 5px 10px;
+    }
+
+    .add-child-btn {
+      width: auto;
+      padding: 5px 10px;
+      margin-bottom: 10px;
+    }
+
+    .save-btn {
+      width: 100%;
+      padding: 8px;
+      margin-top: 10px;
+    }
+
+    h2 { margin-top: 0; }
+
+    pre {
+      background: #f7f7f7;
+      padding: 10px;
+      border-radius: 5px;
+      overflow: auto;
+    }
+  </style>
+</head>
+
+<body ng-controller="myController">
+
+  <div class="form-container">
+    <h2>Enter Your Details</h2>
+
+    <form name="personForm" novalidate ng-submit="save()">
+
+      <!-- Person fields -->
+      <metawidget ng-model="person" config="personMetawidgetConfig"></metawidget>
+
+      <!-- Address -->
+      <span class="form-section-header">Address</span>
+      <metawidget ng-model="person.address" config="addressMetawidgetConfig"></metawidget>
+
+      <!-- Children -->
+      <span class="form-section-header">Children</span>
+
+      <!-- Add Child button -->
+      <button type="button" class="add-child-btn" ng-click="person.children.push({name:''})">
+        Add Child
+      </button>
+
+      <!-- Render children only when present -->
+      <div ng-if="person.children.length > 0">
+        <div ng-repeat="child in person.children track by $index" class="child-container">
+          <metawidget ng-model="child" config="childrenMetawidgetConfig" style="flex:1;"></metawidget>
+          <button type="button" ng-click="person.children.splice($index,1)">Remove</button>
+        </div>
+      </div>
+
+      <!-- Save button -->
+      <button type="submit" class="save-btn" ng-disabled="personForm.$invalid">
+        Save
+      </button>
+
+    </form>
+
+    <h4>Json Model (Live)</h4>
+    <pre>{{ person | json }}</pre>
+  </div>
+
+</body>
+</html>
