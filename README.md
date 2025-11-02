@@ -39,7 +39,7 @@ Hidden initially, revealed only when adding children.
 ## ▶ Running the Project
 
 1. Download all files to the same folder.
-2. Open `index.html` in any modern browser (Chrome recommended).
+2. Open `index.html` in any modern browser.
 3. Enter values for:
    - First Name
    - Surname
@@ -48,3 +48,4 @@ Hidden initially, revealed only when adding children.
    - Any number of children
 4. Click **Save**
 5. Open Developer Tools → Console to view the JSON output
+
